@@ -31,4 +31,4 @@ Options:
 - `tripos 1P1 2016`     - Open the 2016 1P1 question paper
 - `tripos 1P2 2017 -c`  - Open the 2017 1P2 crib
 - `tripos 1P2 2017 -b`  - Open the 2017 1P2 question paper and crib (in separate tabs)
-- `tripos 1P3 2017 -b`  - Open the 2017 1P3 question paper and crib (side by side)
+- `tripos 1P3 2017 -t`  - Open the 2017 1P3 question paper and crib (side by side)
