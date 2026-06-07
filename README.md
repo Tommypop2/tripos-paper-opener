@@ -4,7 +4,9 @@ Small CLI for opening tripos papers in the browser (on camcribs)
 
 ## Installation
 
-`cargo install --git https://github.com/Tommypop2/tripos-paper-opener`
+```bash
+cargo install --git https://github.com/Tommypop2/tripos-paper-opener
+```
 
 ## Usage
 
