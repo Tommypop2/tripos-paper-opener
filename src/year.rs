@@ -14,14 +14,14 @@ impl From<Year> for &str {
         }
     }
 }
-impl Year {
-    pub fn from_paper(paper: &str) -> Option<Self> {
-        match paper.chars().next()? {
-            '1' => Some(Self::IA),
-            '2' => Some(Self::IB),
-            '3' => Some(Self::IIA),
-            '4' => Some(Self::IIB),
-            _ => None,
+impl From<u32> for Year {
+    fn from(value: u32) -> Self {
+        match value {
+            1 => Self::IA,
+            2 => Self::IB,
+            3 => Self::IIA,
+            4 => Self::IIB,
+            _ => panic!("invalid year"),
         }
     }
 }

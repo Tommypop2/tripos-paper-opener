@@ -1,8 +1,10 @@
 use argh::FromArgs;
 
-use crate::paper::Paper;
+use crate::{module::Module, paper::Paper};
+pub mod module;
 pub mod paper;
 pub mod year;
+
 #[derive(FromArgs)]
 /// Open a given tripos paper
 struct Arguments {
@@ -21,7 +23,7 @@ struct Arguments {
 
 fn main() {
     let args: Arguments = argh::from_env();
-    let paper = Paper::new(args.module, args.year);
+    let paper = Paper::new(Module::new(args.module), args.year);
     if args.both {
         // open both q paper and crib
         // open in this order so that the foreground paper is whatever the user specified with --crib
