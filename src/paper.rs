@@ -19,8 +19,8 @@ impl Paper {
         let year = self.module.year()?;
         Some(format!(
             "https://camcribs.com/viewer?year={}&type=tripos&module={}&id={}_{}{}",
-            Into::<&str>::into(year),
-            &self.module.name(),
+            Into::<&str>::into(year).to_uppercase(),
+            &self.module.name().to_uppercase(),
             match url_type {
                 PaperUrl::QP | PaperUrl::Together => "QP",
                 PaperUrl::Crib => "CRIB",
