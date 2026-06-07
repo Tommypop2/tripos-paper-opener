@@ -1,7 +1,11 @@
 use argh::FromArgs;
 
-use crate::{module::Module, paper::Paper};
+use crate::{
+    module::Module,
+    paper::{Paper, PaperUrl},
+};
 pub mod module;
+pub mod open_method;
 pub mod paper;
 pub mod year;
 
@@ -19,17 +23,47 @@ struct Arguments {
     #[argh(switch, short = 'b')]
     /// open both question paper and crib
     both: bool,
+
+    #[argh(switch, short = 't')]
+    /// open question paper and crib together (on same page)
+    together: bool,
 }
 
 fn main() {
     let args: Arguments = argh::from_env();
     let paper = Paper::new(Module::new(args.module), args.year);
-    if args.both {
-        // open both q paper and crib
-        // open in this order so that the foreground paper is whatever the user specified with --crib
-        paper.open(!args.crib).unwrap();
-        paper.open(args.crib).unwrap();
+    // Work out what method to open paper with
+    let open_method = if args.together {
+        open_method::OpenMethod::Together
+    } else if args.both {
+        open_method::OpenMethod::Both
+    } else if args.crib {
+        open_method::OpenMethod::Crib
     } else {
-        paper.open(args.crib).unwrap();
+        open_method::OpenMethod::QP
+    };
+    match open_method {
+        open_method::OpenMethod::Together => paper.open(PaperUrl::Together).unwrap(),
+        open_method::OpenMethod::Both => {
+            // open both q paper and crib
+            // open in this order so that the foreground paper is whatever the user specified with --crib
+            // TODO: encode in OpenMethod::Both state which one should be foreground
+            paper
+                .open(if args.crib {
+                    PaperUrl::QP
+                } else {
+                    PaperUrl::Crib
+                })
+                .unwrap();
+            paper
+                .open(if args.crib {
+                    PaperUrl::Crib
+                } else {
+                    PaperUrl::QP
+                })
+                .unwrap();
+        }
+        open_method::OpenMethod::Crib => paper.open(PaperUrl::Crib).unwrap(),
+        open_method::OpenMethod::QP => paper.open(PaperUrl::QP).unwrap(),
     }
 }
