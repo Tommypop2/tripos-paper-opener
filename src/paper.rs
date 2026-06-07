@@ -1,7 +1,5 @@
 use crate::module::Module;
 
-
-
 pub struct Paper {
     pub module: Module,
     pub year: u32,
