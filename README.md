@@ -1,3 +1,5 @@
+<img src="./assets/logo.png" width="400" />
+
 # Tripos-Paper-Opener
 
 Small CLI for opening tripos papers in the browser (on camcribs)
