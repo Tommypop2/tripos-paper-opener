@@ -2,16 +2,18 @@ use argh::FromArgs;
 
 use crate::{
     module::Module,
-    paper::{Paper, PaperUrl},
+    paper::{Paper, PaperType, PaperUrl},
 };
 pub mod module;
 pub mod open_method;
 pub mod paper;
 pub mod year;
+pub mod ep;
 
 #[derive(FromArgs)]
 /// Open a given tripos paper
 struct Arguments {
+
     #[argh(positional)]
     module: String,
     #[argh(positional)]
@@ -19,6 +21,10 @@ struct Arguments {
     #[argh(switch, short = 'c')]
     /// open the crib
     crib: bool,
+
+    #[argh(switch, short = 'e')]
+    /// toggle for Examples Paper mode
+    examples_paper: bool,
 
     #[argh(switch, short = 'b')]
     /// open both question paper and crib
@@ -30,8 +36,16 @@ struct Arguments {
 }
 
 fn main() {
+    
     let args: Arguments = argh::from_env();
-    let paper = Paper::new(Module::new(args.module), args.year);
+
+    let paper_type =
+    match args.examples_paper {
+        true => PaperType::ExamplesPaper(args.year),
+        false => PaperType::TriposPaper,
+    };
+
+    let paper = Paper::new(Module::new(args.module), args.year, paper_type);
     // Work out what method to open paper with
     let open_method = if args.together {
         open_method::OpenMethod::Together
@@ -39,9 +53,12 @@ fn main() {
         open_method::OpenMethod::Both
     } else if args.crib {
         open_method::OpenMethod::Crib
-    } else {
+    } 
+    else {
         open_method::OpenMethod::QP
     };
+
+
     match open_method {
         open_method::OpenMethod::Together => paper.open(PaperUrl::Together).unwrap(),
         open_method::OpenMethod::Both => {
