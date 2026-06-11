@@ -13,7 +13,7 @@ cargo install --git https://github.com/Tommypop2/tripos-paper-opener
 ## Usage
 
 ```bash
-Usage: tripos [-c] [-b] [-t] [--] <module> <year>
+Usage: tripos [-c] [-e] [-b] [-t] [--] <module> <year>
 
 Open a given tripos paper
 
@@ -23,6 +23,8 @@ Positional Arguments:
 
 Options:
   -c, --crib        open the crib
+  -e, --examples-paper
+                    toggle for Examples Paper mode
   -b, --both        open both question paper and crib
   -t, --together    open question paper and crib together (on same page)
   --help, help      display usage information
